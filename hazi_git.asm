@@ -113,14 +113,35 @@ RESET:
 M_INIT:
 ;< ki- és bemenetek inicializálása stb > 
 
+	;** regiszterek **
+	.def btn_crnt 	= r17
+	.def btn_prev 	= r18
+	.def start_seq 	= r19
+	.def sw_crnt	= r20
+	.def sw_prev	= r21
+	.def led		= r22
+	.def time_it    = r23
+
+	;** I/O init **
+	ldi temp, 0xFF
+	out DDRC, temp ; LED kimenet
+	ldi temp, 0x00
+	out DDRE, temp ; BTN bemenet
+	sts DDRG, temp ; SW bemenet
+
+	;** regiszterek kezdoertek **
+	in btn_prev, PINE
+	ldi start_seq, 0
+	ldi led, 0b00000001
+
 	;** timer **
 	ldi temp, 0b00000000 ; CTC mód és 1024 eloosztás
 	out TCCR1A, temp
 	ldi temp, 0b00001101
 	out TCCR1B, temp
-	ldi temp, HIGH(0) ; a 16 bites OCR reg. közül az OCRA-t választjuk
+	ldi temp, HIGH(10) ; a 16 bites OCR reg. közül az OCRA-t választjuk
 	out OCR1AH, temp
-	ldi temp, LOW(0)
+	ldi temp, LOW(10)
 	out OCR1AL, temp
 	ldi temp, 0 ; nullázzuk a 16 bites számlálót
 	out TCNT1H, temp
@@ -135,22 +156,97 @@ M_INIT:
 M_LOOP: 
 
 ;< fõciklus >
-
+	out PORTC, led
+	mov btn_prev, btn_crnt
+	in btn_crnt, PINE
+	call GOMB_KEZELES
+	cpi start_seq, 0xFF			; if (start_seq == 1)
+	brne M_LOOP					; {
+	cpi time_it, 0xFF			;	if (time_it == 1)
+	brne M_LOOP					;	{
+	call INC_LED				;	  INC_LED()
+	ldi time_it, 0x00			;	  time_it = 1
 	jmp M_LOOP ; Endless Loop  
 
 
 ;*************************************************************** 
 ;* Subroutines, Interrupt routines
+
+;*** TIMER 1 *********
 TIMER_IT:
 	push temp
 	in temp, SREG
 	push temp
+
+	ldi time_it, 0xFF
 
 	pop temp
 	out SREG, temp
 	pop temp
 	reti
 
+;*** BTN kezeles ****
+
+GOMB_KEZELES:
+	cpi btn_crnt, 0				; if (btrn_crnt == 0)
+	brne GOMB_KEZELES_RET
+	cpi btn_prev, 0b01000000	; if (btrn_prev == 0)
+	brne GOMB_KEZELES_RET
+	com start_seq				; start_seq = !start_seq
+	
+GOMB_KEZELES_RET:
+	ret
+
+;*** LED kezeles **
+
+INC_LED:
+	cpi led, 1        ; nulladik LED-nel jarunk-e
+	brne ELSO_LED
+	ldi led, 2
+VISSZATERES:
+	ret
+
+ELSO_LED:
+	cpi led, 2        ; elso LED-nel jarunk-e
+	brne MASODIK_LED
+	ldi led, 4
+	jmp VISSZATERES
+
+MASODIK_LED:
+	cpi led, 4
+	brne HARMADIK_LED ; masodik LED-nel jarunk-e
+	ldi led, 8
+	jmp VISSZATERES
+
+HARMADIK_LED:
+	cpi led, 8
+	brne HETEDIK_LED  ; harmadik LED-nel jarunk-e
+	ldi led, 128
+	jmp VISSZATERES
+
+HETEDIK_LED:
+	cpi led, 128
+	brne HATODIK_LED ; hetedik LED-nel jarunk-e
+	ldi led, 64
+	jmp VISSZATERES
+
+HATODIK_LED:
+	cpi led, 64
+	brne OTODIK_LED  ; hatodik LED-nel jarunk-e
+	ldi led, 32
+	jmp VISSZATERES
+
+OTODIK_LED:
+	cpi led, 32
+	brne NEGYEDIK_LED ; otodik LED-nel jarunk-e
+	ldi led, 16
+	jmp VISSZATERES
+
+NEGYEDIK_LED:
+	cpi led, 16
+	brne INC_LED
+	ldi led, 1
+	jmp VISSZATERES
 
 
 

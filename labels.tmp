@@ -21,9 +21,20 @@
  <LABELS>
   <RESET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>105</LINE></RESET>
   <DUMMY_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>92</LINE></DUMMY_IT>
-  <TIMER_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>144</LINE></TIMER_IT>
+  <TIMER_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>176</LINE></TIMER_IT>
   <DUMMY_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>97</LINE></DUMMY_LOOP>
   <M_INIT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>113</LINE></M_INIT>
-  <M_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>135</LINE></M_LOOP>
+  <M_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>156</LINE></M_LOOP>
+  <GOMB_KEZELES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>190</LINE></GOMB_KEZELES>
+  <INC_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>202</LINE></INC_LED>
+  <GOMB_KEZELES_RET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>197</LINE></GOMB_KEZELES_RET>
+  <ELSO_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>209</LINE></ELSO_LED>
+  <VISSZATERES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>206</LINE></VISSZATERES>
+  <MASODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>215</LINE></MASODIK_LED>
+  <HARMADIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>221</LINE></HARMADIK_LED>
+  <HETEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>227</LINE></HETEDIK_LED>
+  <HATODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>233</LINE></HATODIK_LED>
+  <OTODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>239</LINE></OTODIK_LED>
+  <NEGYEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>245</LINE></NEGYEDIK_LED>
  </LABELS>
 </ASSEMBLER_INFO>
