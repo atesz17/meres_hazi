@@ -188,11 +188,11 @@ TIMER_IT:
 ;*** BTN kezeles ****
 
 GOMB_KEZELES:
-	cpi btn_crnt, 0				; if (btrn_crnt == 0)
-	brne GOMB_KEZELES_RET
-	cpi btn_prev, 0b01000000	; if (btrn_prev == 0)
-	brne GOMB_KEZELES_RET
-	com start_seq				; start_seq = !start_seq
+	cpi btn_crnt, 0				; if (btn_crnt == 0)
+	brne GOMB_KEZELES_RET		; {
+	cpi btn_prev, 0b01000000	; 	if (btn_prev == 1)
+	brne GOMB_KEZELES_RET		;   {
+	com start_seq				; 	  start_seq = !start_seq
 	
 GOMB_KEZELES_RET:
 	ret
