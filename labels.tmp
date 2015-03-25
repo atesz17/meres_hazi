@@ -24,17 +24,23 @@
   <TIMER_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>176</LINE></TIMER_IT>
   <DUMMY_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>97</LINE></DUMMY_LOOP>
   <M_INIT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>113</LINE></M_INIT>
-  <M_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>156</LINE></M_LOOP>
-  <GOMB_KEZELES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>190</LINE></GOMB_KEZELES>
-  <INC_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>202</LINE></INC_LED>
-  <GOMB_KEZELES_RET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>197</LINE></GOMB_KEZELES_RET>
-  <ELSO_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>209</LINE></ELSO_LED>
-  <VISSZATERES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>206</LINE></VISSZATERES>
-  <MASODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>215</LINE></MASODIK_LED>
-  <HARMADIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>221</LINE></HARMADIK_LED>
-  <HETEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>227</LINE></HETEDIK_LED>
-  <HATODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>233</LINE></HATODIK_LED>
-  <OTODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>239</LINE></OTODIK_LED>
-  <NEGYEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>245</LINE></NEGYEDIK_LED>
+  <M_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>157</LINE></M_LOOP>
+  <GOMB_KEZELES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>249</LINE></GOMB_KEZELES>
+  <SW_KEZELES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>190</LINE></SW_KEZELES>
+  <INC_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>263</LINE></INC_LED>
+  <SW_KEZELES_RET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>204</LINE></SW_KEZELES_RET>
+  <SET_SW_2_SEC><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>207</LINE></SET_SW_2_SEC>
+  <SET_SW_1_SEC><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>217</LINE></SET_SW_1_SEC>
+  <SET_SW_05_SEC><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>227</LINE></SET_SW_05_SEC>
+  <SET_SW_025_SEC><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>237</LINE></SET_SW_025_SEC>
+  <GOMB_KEZELES_RET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>258</LINE></GOMB_KEZELES_RET>
+  <ELSO_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>270</LINE></ELSO_LED>
+  <VISSZATERES><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>267</LINE></VISSZATERES>
+  <MASODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>276</LINE></MASODIK_LED>
+  <HARMADIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>282</LINE></HARMADIK_LED>
+  <HETEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>288</LINE></HETEDIK_LED>
+  <HATODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>294</LINE></HATODIK_LED>
+  <OTODIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>300</LINE></OTODIK_LED>
+  <NEGYEDIK_LED><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>306</LINE></NEGYEDIK_LED>
  </LABELS>
 </ASSEMBLER_INFO>

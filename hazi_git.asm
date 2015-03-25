@@ -131,6 +131,7 @@ M_INIT:
 
 	;** regiszterek kezdoertek **
 	in btn_prev, PINE
+	lds sw_prev, PING
 	ldi start_seq, 0
 	ldi led, 0b00000001
 
@@ -157,9 +158,8 @@ M_LOOP:
 
 ;< fõciklus >
 	out PORTC, led				; PORTC = led
-	mov btn_prev, btn_crnt		; btn_prev = btn_crnt
-	in btn_crnt, PINE			; btn_crnt = PINE
 	call GOMB_KEZELES			; GOMB_KEZELES()
+	call SW_KEZELES				; SW_KEZELES()
 	cpi start_seq, 0xFF			; if (start_seq == 1)
 	brne M_LOOP					; {
 	cpi time_it, 0xFF			;	if (time_it == 1)
@@ -185,9 +185,70 @@ TIMER_IT:
 	pop temp
 	reti
 
+;*** SW kezeles ***
+
+SW_KEZELES:
+	mov sw_prev, sw_crnt		; sw_prev = sw_crnt		
+	lds sw_crnt, PING			; sw_crnt = PING
+	cp sw_prev, sw_crnt			; equals = (sw_prev == sw_crnt)
+	breq SW_KEZELES_RET			; if (!equals)
+	sbrs sw_crnt, 0				; 	if (sw_crnt[0] == 0) // le van nyomva
+	jmp SET_SW_2_SEC			;		SET_SW_2_SEC() return;
+	sbrs sw_crnt, 1				;   if (sw_crnt[1] == 0)
+	jmp SET_SW_1_SEC			;		SET_SW_1_SEC() return;
+	sbrs sw_crnt, 4				;   if (sw_crnt[4] == 0)
+	jmp SET_SW_05_SEC			;		SET_SW_05_SEC() return;
+	sbrs sw_crnt, 3				;   if (sw_crnt[3] == 0)
+	jmp SET_SW_025_SEC			;		SET_SW_025_SEC() return;
+
+SW_KEZELES_RET:
+	ret
+
+SET_SW_2_SEC:
+	ldi temp, HIGH(100) ; 21600 --> 2 sec
+	out OCR1AH, temp
+	ldi temp, LOW(100)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
+SET_SW_1_SEC:
+	ldi temp, HIGH(50) ; 10800 --> 1 sec
+	out OCR1AH, temp
+	ldi temp, LOW(50)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
+SET_SW_05_SEC:
+	ldi temp, HIGH(25) ; 5400 --> 0,5 sec
+	out OCR1AH, temp
+	ldi temp, LOW(25)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
+SET_SW_025_SEC:
+	ldi temp, HIGH(12) ; 2700 --> 0,25 sec
+	out OCR1AH, temp
+	ldi temp, LOW(12)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
 ;*** BTN kezeles ****
 
 GOMB_KEZELES:
+	mov btn_prev, btn_crnt		; btn_prev = btn_crnt
+	in btn_crnt, PINE			; btn_crnt = PINE
 	cpi btn_crnt, 0				; if (btn_crnt == 0)
 	brne GOMB_KEZELES_RET		; {
 	cpi btn_prev, 0b01000000	; 	if (btn_prev == 1)
