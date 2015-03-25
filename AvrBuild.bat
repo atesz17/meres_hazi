@@ -1,0 +1,2 @@
+@ECHO OFF
+"C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\avrasm2.exe" -S "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\labels.tmp" -fI -W+ie -C V2E -o "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.hex" -d "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.obj" -e "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.eep" -m "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.map" "C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm"

@@ -1,0 +1,29 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.1.42</VERSION>
+ <DEVICE>ATmega128</DEVICE>
+ <WORKING_DIR>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes</DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:\Program Files (x86)\Atmel\AVR Tools\AvrAssembler2\Appnotes\m128def.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.map</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <RESET><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>105</LINE></RESET>
+  <DUMMY_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>92</LINE></DUMMY_IT>
+  <TIMER_IT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>144</LINE></TIMER_IT>
+  <DUMMY_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>97</LINE></DUMMY_LOOP>
+  <M_INIT><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>113</LINE></M_INIT>
+  <M_LOOP><FILE>C:\Users\atesz17\OneDrive\BME\Meres2\hazi_git\hazi_git.asm</FILE><LINE>135</LINE></M_LOOP>
+ </LABELS>
+</ASSEMBLER_INFO>
