@@ -205,7 +205,27 @@ SW_KEZELES_RET:
 	ret
 
 SET_SW_2_SEC:
-	ldi temp, HIGH(100) ; 21600 --> 2 sec
+	ldi temp, HIGH(400) ; 21600 --> 2 sec
+	out OCR1AH, temp
+	ldi temp, LOW(400)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
+SET_SW_1_SEC:
+	ldi temp, HIGH(200) ; 10800 --> 1 sec
+	out OCR1AH, temp
+	ldi temp, LOW(200)
+	out OCR1AL, temp
+	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	out TCNT1H, temp
+	out TCNT1L, temp
+	jmp SW_KEZELES_RET
+
+SET_SW_05_SEC:
+	ldi temp, HIGH(100) ; 5400 --> 0,5 sec
 	out OCR1AH, temp
 	ldi temp, LOW(100)
 	out OCR1AL, temp
@@ -214,30 +234,10 @@ SET_SW_2_SEC:
 	out TCNT1L, temp
 	jmp SW_KEZELES_RET
 
-SET_SW_1_SEC:
-	ldi temp, HIGH(50) ; 10800 --> 1 sec
+SET_SW_025_SEC:
+	ldi temp, HIGH(50) ; 2700 --> 0,25 sec
 	out OCR1AH, temp
 	ldi temp, LOW(50)
-	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
-	out TCNT1H, temp
-	out TCNT1L, temp
-	jmp SW_KEZELES_RET
-
-SET_SW_05_SEC:
-	ldi temp, HIGH(25) ; 5400 --> 0,5 sec
-	out OCR1AH, temp
-	ldi temp, LOW(25)
-	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
-	out TCNT1H, temp
-	out TCNT1L, temp
-	jmp SW_KEZELES_RET
-
-SET_SW_025_SEC:
-	ldi temp, HIGH(12) ; 2700 --> 0,25 sec
-	out OCR1AH, temp
-	ldi temp, LOW(12)
 	out OCR1AL, temp
 	ldi temp, 0 ; nullázzuk a 16 bites számlálót
 	out TCNT1H, temp
