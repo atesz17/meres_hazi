@@ -156,10 +156,10 @@ M_INIT:
 M_LOOP: 
 
 ;< fõciklus >
-	out PORTC, led
-	mov btn_prev, btn_crnt
-	in btn_crnt, PINE
-	call GOMB_KEZELES
+	out PORTC, led				; PORTC = led
+	mov btn_prev, btn_crnt		; btn_prev = btn_crnt
+	in btn_crnt, PINE			; btn_crnt = PINE
+	call GOMB_KEZELES			; GOMB_KEZELES()
 	cpi start_seq, 0xFF			; if (start_seq == 1)
 	brne M_LOOP					; {
 	cpi time_it, 0xFF			;	if (time_it == 1)
