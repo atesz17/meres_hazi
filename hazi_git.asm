@@ -57,10 +57,10 @@
 	jmp DUMMY_IT	; Timer2 Compare Match Handler 
 	jmp DUMMY_IT	; Timer2 Overflow Handler 
 	jmp DUMMY_IT	; Timer1 Capture Event Handler 
-	jmp TIMER_IT	; Timer1 Compare Match A Handler 
+	jmp TIMER_IT	;asddasads Timer1 Compare Match A Handler 
 	jmp DUMMY_IT	; Timer1 Compare Match B Handler 
 	jmp DUMMY_IT	; Timer1 Overflow Handler 
-	jmp DUMMY_IT	; Timer0 Compare Match Handler 
+	jmp PERGES_IT	; Timer0 Compare Match Handler 
 	jmp DUMMY_IT	; Timer0 Overflow Handler 
 	jmp DUMMY_IT	; SPI Transfer Complete Handler 
 	jmp DUMMY_IT	; USART0 RX Complete Handler 
@@ -121,6 +121,8 @@ M_INIT:
 	.def sw_prev	= r21
 	.def led		= r22
 	.def time_it    = r23
+	.def perg_it  	= r24
+	.def perg_7ms	= r25
 
 	;** I/O init **
 	ldi temp, 0xFF
@@ -134,20 +136,36 @@ M_INIT:
 	lds sw_prev, PING
 	ldi start_seq, 0
 	ldi led, 0b00000001
+	ldi perg_7ms, 7
+	ldi perg_it, 0
 
-	;** timer **
+	;** PERG_IT ***
+	ldi temp, 3		; 10800/108 = 100Hz --> 0.01s (6-ot fogunk szamolni 6ms)
+	out OCR0, temp
+	ldi temp, 0b00001111 ; CTC mod es 1024 eloosztas
+	out TCCR0, temp
+	ldi temp, 0
+	out TCNT0, temp
+
+;	ldi temp, 0b00000010 ; megszakitas, ha TCNT == OCR
+;	out TIMSK, temp	
+;	sei
+	
+	;** TIMER_IT **
 	ldi temp, 0b00000000 ; CTC mód és 1024 eloosztás
 	out TCCR1A, temp
 	ldi temp, 0b00001101
 	out TCCR1B, temp
-	ldi temp, HIGH(10) ; a 16 bites OCR reg. közül az OCRA-t választjuk
+	ldi temp, HIGH(100) ; a 16 bites OCR reg. közül az OCRA-t választjuk
 	out OCR1AH, temp
-	ldi temp, LOW(10)
+	ldi temp, LOW(100)
 	out OCR1AL, temp
 	ldi temp, 0 ; nullázzuk a 16 bites számlálót
 	out TCNT1H, temp
 	out TCNT1L, temp
-	ldi temp, 0b00010000 ; megszakítás, ha TCNT == OCR
+
+
+	ldi temp, 0b00010010 ; megszakítás, ha TCNT == OCR
 	out TIMSK, temp
 	sei ; globális IT engedélyezé
 
@@ -158,14 +176,18 @@ M_LOOP:
 
 ;< fõciklus >
 	out PORTC, led				; PORTC = led
-	call GOMB_KEZELES			; GOMB_KEZELES()
-	call SW_KEZELES				; SW_KEZELES()
+	cpi perg_it, 0xFF			; if (perges_it == 1)
+	brne VILLOGTATAS			; {
+	ldi perg_it, 0x00			;	perges_it = 0
+	call GOMB_KEZELES			;   GOMB_KEZELES()
+	call SW_KEZELES				;   SW_KEZELES()
+VILLOGTATAS:					; }
 	cpi start_seq, 0xFF			; if (start_seq == 1)
 	brne M_LOOP					; {
 	cpi time_it, 0xFF			;	if (time_it == 1)
 	brne M_LOOP					;	{
 	call INC_LED				;	  INC_LED()
-	ldi time_it, 0x00			;	  time_it = 1
+	ldi time_it, 0x00			;	  time_it = 0
 	jmp M_LOOP ; Endless Loop  
 
 
@@ -180,6 +202,22 @@ TIMER_IT:
 
 	ldi time_it, 0xFF
 
+	pop temp
+	out SREG, temp
+	pop temp
+	reti
+;*** TIMER 0 ********
+PERGES_IT:
+	push temp
+	in temp, SREG
+	push temp
+
+	dec perg_7ms
+	brne NEM_JART_LE
+	ldi perg_it, 0xFF
+	ldi perg_7ms, 7
+
+NEM_JART_LE:
 	pop temp
 	out SREG, temp
 	pop temp
