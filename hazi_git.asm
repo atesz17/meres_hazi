@@ -140,7 +140,7 @@ M_INIT:
 	ldi perg_it, 0			; az elejen nincs gomb es sw mintavetelezes
 
 	;** PERG_IT ***
-	ldi temp, 3				; 10800/108 = 100Hz --> 0.01s (7-et fogunk szamolni 7ms)
+	ldi temp, 107				; 10800/108 = 100Hz --> 0.01s (7-et fogunk szamolni 7ms)
 	out OCR0, temp
 	ldi temp, 0b00001111 	; CTC mod es 1024 eloosztas
 	out TCCR0, temp
@@ -153,9 +153,9 @@ M_INIT:
 	out TCCR1A, temp
 	ldi temp, 0b00001101
 	out TCCR1B, temp
-	ldi temp, HIGH(10) 	; alapertelmezetten 1 mp sebesseggel lepkednek a ledek
+	ldi temp, HIGH(10800) 	; alapertelmezetten 1 mp sebesseggel lepkednek a ledek
 	out OCR1AH, temp
-	ldi temp, LOW(10)
+	ldi temp, LOW(10800)
 	out OCR1AL, temp
 	ldi temp, 0 			; nullazzuk a szamlalot
 	out TCNT1H, temp
@@ -240,9 +240,9 @@ SW_KEZELES_RET:
 	ret
 
 SET_SW_2_SEC:
-	ldi temp, HIGH(400) ; 21600 --> 2 sec
+	ldi temp, HIGH(21600) ; 21600 --> 2 sec
 	out OCR1AH, temp	; betoltjuk az uj komparalasi erteket a timernek
-	ldi temp, LOW(400)	;
+	ldi temp, LOW(21600)	;
 	out OCR1AL, temp	;
 	ldi temp, 0 		; nullázzuk a számlálót
 	out TCNT1H, temp	;
@@ -250,9 +250,9 @@ SET_SW_2_SEC:
 	jmp SW_KEZELES_RET	; return
 
 SET_SW_1_SEC:
-	ldi temp, HIGH(200) ; 10800 --> 1 sec
+	ldi temp, HIGH(10800) ; 10800 --> 1 sec
 	out OCR1AH, temp
-	ldi temp, LOW(200)
+	ldi temp, LOW(10800)
 	out OCR1AL, temp
 	ldi temp, 0
 	out TCNT1H, temp
@@ -260,9 +260,9 @@ SET_SW_1_SEC:
 	jmp SW_KEZELES_RET
 
 SET_SW_05_SEC:
-	ldi temp, HIGH(100) ; 5400 --> 0,5 sec
+	ldi temp, HIGH(5400) ; 5400 --> 0,5 sec
 	out OCR1AH, temp
-	ldi temp, LOW(100)
+	ldi temp, LOW(5400)
 	out OCR1AL, temp
 	ldi temp, 0
 	out TCNT1H, temp
@@ -270,9 +270,9 @@ SET_SW_05_SEC:
 	jmp SW_KEZELES_RET
 
 SET_SW_025_SEC:
-	ldi temp, HIGH(50) ; 2700 --> 0,25 sec
+	ldi temp, HIGH(2700) ; 2700 --> 0,25 sec
 	out OCR1AH, temp
-	ldi temp, LOW(50)
+	ldi temp, LOW(2700)
 	out OCR1AL, temp
 	ldi temp, 0
 	out TCNT1H, temp
