@@ -153,9 +153,9 @@ M_INIT:
 	out TCCR1A, temp
 	ldi temp, 0b00001101
 	out TCCR1B, temp
-	ldi temp, HIGH(100) 	; alapertelmezetten 1 mp sebesseggel lepkednek a ledek
+	ldi temp, HIGH(10) 	; alapertelmezetten 1 mp sebesseggel lepkednek a ledek
 	out OCR1AH, temp
-	ldi temp, LOW(100)
+	ldi temp, LOW(10)
 	out OCR1AL, temp
 	ldi temp, 0 			; nullazzuk a szamlalot
 	out TCNT1H, temp
@@ -284,10 +284,10 @@ SET_SW_025_SEC:
 GOMB_KEZELES:
 	mov btn_prev, btn_crnt		; btn_prev = btn_crnt
 	in btn_crnt, PINE			; btn_crnt = PINE
-	cpi btn_crnt, 0				; if (btn_crnt == 0)
-	brne GOMB_KEZELES_RET		; {
-	cpi btn_prev, 0b01000000	; 	if (btn_prev == 1)
-	brne GOMB_KEZELES_RET		;   {
+	sbrc btn_crnt, 6			; if (btn_crnt[6] == 0)		// btn_crnt[6] = BTN1
+	jmp GOMB_KEZELES_RET		; {
+	sbrs btn_prev, 6			; 	if (btn_prev[6] == 1)
+	jmp GOMB_KEZELES_RET		;   {
 	com start_seq				; 	  start_seq = !start_seq
 	
 GOMB_KEZELES_RET:
