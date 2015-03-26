@@ -122,7 +122,9 @@ M_INIT:
 	.def led		= r22
 	.def time_it    = r23
 	.def perg_it  	= r24
-	.def perg_7ms	= r25
+	.def perg_14ms	= r25
+	.def uj_timer16H= r26
+	.def uj_timer16L= r27
 
 	;** I/O init **
 	ldi temp, 0xFF
@@ -136,7 +138,7 @@ M_INIT:
 	lds sw_prev, PING		; SW jelenlegi helyzetet eltaroljuk
 	ldi start_seq, 0		; amig nincs gombnyomas, ne induljon a LED futtatas
 	ldi led, 0b00000001		; inditaskor az elso led fog vilagitani
-	ldi perg_7ms, 7			; 7 ms-kent lesz mintavetelezes
+	ldi perg_14ms, 14		; 14 ms-kent lesz mintavetelezes (GyakVez javaslat)
 	ldi perg_it, 0			; az elejen nincs gomb es sw mintavetelezes
 
 	;** PERG_IT ***
@@ -209,10 +211,10 @@ PERGES_IT:
 	in temp, SREG
 	push temp
 
-	dec perg_7ms		; 7 ms merunk, ha nem telt le, akkor tovabb varunk
+	dec perg_14ms		; 14 ms merunk, ha nem telt le, akkor tovabb varunk
 	brne NEM_JART_LE	;
 	ldi perg_it, 0xFF	; ha letelt, a perg_it flaget bebillentjuk (gombnak es sw-nek)
-	ldi perg_7ms, 7		; 7ms ujra merunk
+	ldi perg_14ms, 14	; 14ms ujra merunk
 
 NEM_JART_LE:
 	pop temp
@@ -240,40 +242,28 @@ SW_KEZELES_RET:
 	ret
 
 SET_SW_2_SEC:
-	ldi temp, HIGH(21600) ; 21600 --> 2 sec
-	out OCR1AH, temp	; betoltjuk az uj komparalasi erteket a timernek
-	ldi temp, LOW(21600)	;
-	out OCR1AL, temp	;
-	ldi temp, 0 		; nullázzuk a számlálót
-	out TCNT1H, temp	;
-	out TCNT1L, temp	;
-	jmp SW_KEZELES_RET	; return
+	ldi uj_timer16H, HIGH(21600)
+	ldi uj_timer16L, LOW(21600)
+	jmp SET_SWITCH_NEW_TIME
 
 SET_SW_1_SEC:
-	ldi temp, HIGH(10800) ; 10800 --> 1 sec
-	out OCR1AH, temp
-	ldi temp, LOW(10800)
-	out OCR1AL, temp
-	ldi temp, 0
-	out TCNT1H, temp
-	out TCNT1L, temp
-	jmp SW_KEZELES_RET
+	ldi uj_timer16H, HIGH(10800)
+	ldi uj_timer16L, LOW(10800)
+	jmp SET_SWITCH_NEW_TIME
 
 SET_SW_05_SEC:
-	ldi temp, HIGH(5400) ; 5400 --> 0,5 sec
-	out OCR1AH, temp
-	ldi temp, LOW(5400)
-	out OCR1AL, temp
-	ldi temp, 0
-	out TCNT1H, temp
-	out TCNT1L, temp
-	jmp SW_KEZELES_RET
+	ldi uj_timer16H, HIGH(5400)
+	ldi uj_timer16L, LOW(5400)
+	jmp SET_SWITCH_NEW_TIME
 
 SET_SW_025_SEC:
-	ldi temp, HIGH(2700) ; 2700 --> 0,25 sec
-	out OCR1AH, temp
-	ldi temp, LOW(2700)
-	out OCR1AL, temp
+	ldi uj_timer16H, HIGH(2700)
+	ldi uj_timer16L, LOW(2700)
+	jmp SET_SWITCH_NEW_TIME
+
+SET_SWITCH_NEW_TIME:
+	out OCR1AH, uj_timer16H
+	out OCR1AL, uj_timer16L
 	ldi temp, 0
 	out TCNT1H, temp
 	out TCNT1L, temp
@@ -289,6 +279,9 @@ GOMB_KEZELES:
 	sbrs btn_prev, 6			; 	if (btn_prev[6] == 1)
 	jmp GOMB_KEZELES_RET		;   {
 	com start_seq				; 	  start_seq = !start_seq
+	ldi temp, 0					; hogy ne ugraljon, ha lenyomjuk a gombot,
+	out TCNT1H, temp			; lenullazzuk a szamlalot
+	out TCNT1L, temp
 	
 GOMB_KEZELES_RET:
 	ret
