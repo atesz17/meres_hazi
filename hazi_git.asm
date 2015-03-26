@@ -57,7 +57,7 @@
 	jmp DUMMY_IT	; Timer2 Compare Match Handler 
 	jmp DUMMY_IT	; Timer2 Overflow Handler 
 	jmp DUMMY_IT	; Timer1 Capture Event Handler 
-	jmp TIMER_IT	;asddasads Timer1 Compare Match A Handler 
+	jmp TIMER_IT	; Timer1 Compare Match A Handler 
 	jmp DUMMY_IT	; Timer1 Compare Match B Handler 
 	jmp DUMMY_IT	; Timer1 Overflow Handler 
 	jmp PERGES_IT	; Timer0 Compare Match Handler 
@@ -126,46 +126,43 @@ M_INIT:
 
 	;** I/O init **
 	ldi temp, 0xFF
-	out DDRC, temp ; LED kimenet
+	out DDRC, temp 			; LED kimenet
 	ldi temp, 0x00
-	out DDRE, temp ; BTN bemenet
-	sts DDRG, temp ; SW bemenet
+	out DDRE, temp 			; BTN bemenet
+	sts DDRG, temp 			; SW bemenet
 
 	;** regiszterek kezdoertek **
-	in btn_prev, PINE
-	lds sw_prev, PING
-	ldi start_seq, 0
-	ldi led, 0b00000001
-	ldi perg_7ms, 7
-	ldi perg_it, 0
+	in btn_prev, PINE		; BTN jelenlegi helyzetet eltaroljuk
+	lds sw_prev, PING		; SW jelenlegi helyzetet eltaroljuk
+	ldi start_seq, 0		; amig nincs gombnyomas, ne induljon a LED futtatas
+	ldi led, 0b00000001		; inditaskor az elso led fog vilagitani
+	ldi perg_7ms, 7			; 7 ms-kent lesz mintavetelezes
+	ldi perg_it, 0			; az elejen nincs gomb es sw mintavetelezes
 
 	;** PERG_IT ***
-	ldi temp, 3		; 10800/108 = 100Hz --> 0.01s (6-ot fogunk szamolni 6ms)
+	ldi temp, 3				; 10800/108 = 100Hz --> 0.01s (7-et fogunk szamolni 7ms)
 	out OCR0, temp
-	ldi temp, 0b00001111 ; CTC mod es 1024 eloosztas
+	ldi temp, 0b00001111 	; CTC mod es 1024 eloosztas
 	out TCCR0, temp
-	ldi temp, 0
+	ldi temp, 0				; lenullazzuk a szamlalot
 	out TCNT0, temp
 
-;	ldi temp, 0b00000010 ; megszakitas, ha TCNT == OCR
-;	out TIMSK, temp	
-;	sei
 	
 	;** TIMER_IT **
-	ldi temp, 0b00000000 ; CTC mód és 1024 eloosztás
+	ldi temp, 0b00000000 	; CTC mod és 1024 eloosztas
 	out TCCR1A, temp
 	ldi temp, 0b00001101
 	out TCCR1B, temp
-	ldi temp, HIGH(100) ; a 16 bites OCR reg. közül az OCRA-t választjuk
+	ldi temp, HIGH(100) 	; alapertelmezetten 1 mp sebesseggel lepkednek a ledek
 	out OCR1AH, temp
 	ldi temp, LOW(100)
 	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	ldi temp, 0 			; nullazzuk a szamlalot
 	out TCNT1H, temp
 	out TCNT1L, temp
 
 
-	ldi temp, 0b00010010 ; megszakítás, ha TCNT == OCR
+	ldi temp, 0b00010010 ; megszakítás, ha TCNT == OCR mind a ket regiszternel
 	out TIMSK, temp
 	sei ; globális IT engedélyezé
 
@@ -200,7 +197,7 @@ TIMER_IT:
 	in temp, SREG
 	push temp
 
-	ldi time_it, 0xFF
+	ldi time_it, 0xFF	; time_it flaget bebillentjuk (LED leptetesenel fontos)
 
 	pop temp
 	out SREG, temp
@@ -212,10 +209,10 @@ PERGES_IT:
 	in temp, SREG
 	push temp
 
-	dec perg_7ms
-	brne NEM_JART_LE
-	ldi perg_it, 0xFF
-	ldi perg_7ms, 7
+	dec perg_7ms		; 7 ms merunk, ha nem telt le, akkor tovabb varunk
+	brne NEM_JART_LE	;
+	ldi perg_it, 0xFF	; ha letelt, a perg_it flaget bebillentjuk (gombnak es sw-nek)
+	ldi perg_7ms, 7		; 7ms ujra merunk
 
 NEM_JART_LE:
 	pop temp
@@ -231,33 +228,33 @@ SW_KEZELES:
 	cp sw_prev, sw_crnt			; equals = (sw_prev == sw_crnt)
 	breq SW_KEZELES_RET			; if (!equals)
 	sbrs sw_crnt, 0				; 	if (sw_crnt[0] == 0) // le van nyomva
-	jmp SET_SW_2_SEC			;		SET_SW_2_SEC() return;
+	jmp SET_SW_2_SEC			;		goto SET_SW_2_SEC
 	sbrs sw_crnt, 1				;   if (sw_crnt[1] == 0)
-	jmp SET_SW_1_SEC			;		SET_SW_1_SEC() return;
+	jmp SET_SW_1_SEC			;		goto SET_SW_1_SEC
 	sbrs sw_crnt, 4				;   if (sw_crnt[4] == 0)
-	jmp SET_SW_05_SEC			;		SET_SW_05_SEC() return;
+	jmp SET_SW_05_SEC			;		goto SET_SW_05_SEC
 	sbrs sw_crnt, 3				;   if (sw_crnt[3] == 0)
-	jmp SET_SW_025_SEC			;		SET_SW_025_SEC() return;
+	jmp SET_SW_025_SEC			;		goto SET_SW_025_SEC
 
 SW_KEZELES_RET:
 	ret
 
 SET_SW_2_SEC:
 	ldi temp, HIGH(400) ; 21600 --> 2 sec
-	out OCR1AH, temp
-	ldi temp, LOW(400)
-	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
-	out TCNT1H, temp
-	out TCNT1L, temp
-	jmp SW_KEZELES_RET
+	out OCR1AH, temp	; betoltjuk az uj komparalasi erteket a timernek
+	ldi temp, LOW(400)	;
+	out OCR1AL, temp	;
+	ldi temp, 0 		; nullázzuk a számlálót
+	out TCNT1H, temp	;
+	out TCNT1L, temp	;
+	jmp SW_KEZELES_RET	; return
 
 SET_SW_1_SEC:
 	ldi temp, HIGH(200) ; 10800 --> 1 sec
 	out OCR1AH, temp
 	ldi temp, LOW(200)
 	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	ldi temp, 0
 	out TCNT1H, temp
 	out TCNT1L, temp
 	jmp SW_KEZELES_RET
@@ -267,7 +264,7 @@ SET_SW_05_SEC:
 	out OCR1AH, temp
 	ldi temp, LOW(100)
 	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	ldi temp, 0
 	out TCNT1H, temp
 	out TCNT1L, temp
 	jmp SW_KEZELES_RET
@@ -277,7 +274,7 @@ SET_SW_025_SEC:
 	out OCR1AH, temp
 	ldi temp, LOW(50)
 	out OCR1AL, temp
-	ldi temp, 0 ; nullázzuk a 16 bites számlálót
+	ldi temp, 0
 	out TCNT1H, temp
 	out TCNT1L, temp
 	jmp SW_KEZELES_RET
@@ -299,17 +296,17 @@ GOMB_KEZELES_RET:
 ;*** LED kezeles **
 
 INC_LED:
-	cpi led, 1        ; nulladik LED-nel jarunk-e
-	brne ELSO_LED
-	ldi led, 2
-VISSZATERES:
-	ret
+	cpi led, 1        	; if (led != 0x01) 
+	brne ELSO_LED		; 	goto ELSO_LED
+	ldi led, 2			; led = 0x02
+VISSZATERES:			; return
+	ret					;
 
 ELSO_LED:
-	cpi led, 2        ; elso LED-nel jarunk-e
-	brne MASODIK_LED
-	ldi led, 4
-	jmp VISSZATERES
+	cpi led, 2        	; if (led != 0x02)
+	brne MASODIK_LED	;	goto MASODIK_LED
+	ldi led, 4			; led = 0x04
+	jmp VISSZATERES		; return
 
 MASODIK_LED:
 	cpi led, 4
